@@ -6,6 +6,11 @@
 <html>
 <head>
     <title>评 论 列 表</title>
+    <script  src="/static/script/third/easyDataTable/css/datatable.css"></script>
+    <!-- basic styles -->
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://cdn.bootcss.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="/static/style/common.css" rel="stylesheet" />
 </head>
 <body>
 <div class="page-container">

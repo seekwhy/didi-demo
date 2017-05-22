@@ -41,4 +41,8 @@ public interface OrderDao {
     void cancleOrder(String orderId);
 
     void resendOrder(String orderId);
+
+    List<Order> findNotgragOrdersByUidAndState(String userId);
+
+    List<Order> findAllOrderByUserId(String userId);
 }

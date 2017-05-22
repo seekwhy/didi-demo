@@ -71,7 +71,7 @@
     <form action="/user/register" name = "form" method="post" onsubmit="return reg(this);">
         <table align="center" width="450" border="0">
             <tr>
-                <td align="right"  width="300px">用户姓名：</td>
+                <td align="right" >用户姓名：</td>
                 <td>
                     <input type="text" name="userName">
                 </td>

@@ -29,7 +29,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/order")
 public class OrderController {
-  private Log LOG = LogFactory.getLog(this.getClass());
+
+  private Log _log = LogFactory.getLog(OrderController.class);
 
   @Autowired
   private OrderService orderservice;
@@ -38,80 +39,81 @@ public class OrderController {
 
   @RequestMapping(value = "/addorder")
   public String list(HttpServletRequest request, @ModelAttribute("order") OrderBo orderBo) {
-    try{
+    try {
       String orderId = orderservice.addOrder(orderBo);
+      String userId = orderBo.getUserId();
 
-      request.setAttribute("suc", "success");
+      List<Order> orderList = orderservice.findAllOrderByUserId(userId);
 
-      List<Order> orderList = orderservice.findAllOrder();
-
-      request.setAttribute("orderList",orderList);
+      request.setAttribute("orderList", orderList);
 
       return "orderlist";
 
-    }catch(Exception e){
+    } catch (Exception e) {
       e.printStackTrace();
       return "404";
     }
 
   }
-  @RequestMapping(value = "/weiqiangdan", method = RequestMethod.POST)
-  public String weiqiangdan(HttpServletRequest request, HttpServletResponse response) {
-    try{
+
+  @RequestMapping(value = "/notgrab")
+  public String weiqiangdan(HttpServletRequest request, String userId, HttpServletResponse response) {
+    try {
+      _log.info("userId " + userId);
+      String[] userIds = userId.split("/");
+      for (int i = 0; i < userIds.length; i++) {
+        userId = userIds[i];
+      }
       List<Order> lists = new ArrayList<Order>();
-      String orderState = String.valueOf(OrderStateEnum.CREATE.getKey());
-      List<Order> orderList = orderservice.findorderbystate(orderState);
-      if(orderList.size()>0){
-        lists.addAll(orderList);
+      List<Order> orders = orderservice.findNotgragOrdersByUidAndState(userId);
+      if (orders.size() > 0) {
+        lists.addAll(orders);
       }
-      orderState = String.valueOf(OrderStateEnum.CONFIRM.getKey());
-      orderList = orderservice.findorderbystate(orderState);
-      if(orderList.size()>0){
-        lists.addAll(orderList);
-      }
-      request.setAttribute("lists",lists);
+      request.setAttribute("lists", lists);
 
       return "notgrab";
 
-    }catch(Exception e){
+    } catch (Exception e) {
       e.printStackTrace();
       return "404";
     }
 
   }
-  @RequestMapping(value = "/daishoudingdan", method = RequestMethod.POST)
+
+  @RequestMapping(value = "/notget", method = RequestMethod.POST)
   public String daishoudingdan(HttpServletRequest request, HttpServletResponse response) {
-    try{
+    try {
       List<Order> lists = new ArrayList<Order>();
       String orderState = String.valueOf(OrderStateEnum.GRAB.getKey());
       List<Order> orderList = orderservice.findorderbystate(orderState);
-      if(orderList.size()>0){
+      if (orderList.size() > 0) {
         lists.addAll(orderList);
       }
-      request.setAttribute("lists",lists);
+      request.setAttribute("lists", lists);
 
       return "waitorder";
 
-    }catch(Exception e){
+    } catch (Exception e) {
       e.printStackTrace();
       return "404";
     }
 
   }
+
   @RequestMapping(value = "/daiquerendingdan", method = RequestMethod.POST)
   public String daiquerendingdan(HttpServletRequest request, HttpServletResponse response) {
-    try{
+    try {
       List<Order> lists = new ArrayList<Order>();
       String orderState = String.valueOf(OrderStateEnum.CREATE.getKey());
       List<Order> orderList = orderservice.findorderbystate(orderState);
-      if(orderList.size()>0){
+      if (orderList.size() > 0) {
         lists.addAll(orderList);
       }
-      request.setAttribute("lists",lists);
+      request.setAttribute("lists", lists);
 
       return "daiquerendingdan";
 
-    }catch(Exception e){
+    } catch (Exception e) {
       e.printStackTrace();
       return "404";
     }
@@ -120,57 +122,64 @@ public class OrderController {
 
   @RequestMapping(value = "/chakandingdan", method = RequestMethod.POST)
   public String chakandingdan(HttpServletRequest request, HttpServletResponse response) {
-    try{
+    try {
       List<Order> lists = new ArrayList<Order>();
       List<Order> orderList = orderservice.findAllFinishOrders();
-      if(orderList.size()>0){
+      if (orderList.size() > 0) {
         lists.addAll(orderList);
       }
-      request.setAttribute("orderList",lists);
+      request.setAttribute("orderList", lists);
 
       return "orderlist";
 
-    }catch(Exception e){
+    } catch (Exception e) {
       e.printStackTrace();
       return "404";
     }
 
   }
-  @RequestMapping(value = "/tianjiaorder", method = RequestMethod.POST)
-  public String tianjiaorder(HttpServletRequest request, @ModelAttribute("order") OrderBo orderBo) {
-    try{
-      String userId = orderBo.getUserId();
 
-      User user = userservice.findUserByUserId(userId);
+  @RequestMapping(value = "/addorderpage")
+  public String addorderpage(HttpServletRequest request, String userId,String userName) {
+    try {
+      _log.info("userId =" + userId+" usreName = "+userName);
+      String[] userIds = userId.split("/");
+      for (int i = 0; i < userIds.length; i++) {
+        userId = userIds[i];
+      }
+      if (!StringUtils.isBlank(userId)) {
+        User user = userservice.findUserByUserId(userId);
+        request.setAttribute("username", user.getName());
+        request.setAttribute("userId", user.getUserId());
+      }
 
-      request.setAttribute("username",user.getName());
-      request.setAttribute("userId",user.getUserId());
       return "order";
 
-    }catch(Exception e){
+    } catch (Exception e) {
       e.printStackTrace();
       return "404";
     }
 
   }
+
   @RequestMapping(value = "/confirm")
-  public String confirm(HttpServletRequest request,String orderId)throws Exception {
-    User user=null;
-    try{
-      LOG.info("待确认的订单"+orderId);
+  public String confirm(HttpServletRequest request, String orderId) throws Exception {
+    User user = null;
+    try {
+      _log.info("待确认的订单" + orderId);
       orderservice.confirmOrder(orderId);
       Order order = orderservice.findOrderByOrderId(orderId);
       String userId = order.getUserId();
-      user  = userservice.findUserByUserId(userId);
+      user = userservice.findUserByUserId(userId);
 
-      if(user!=null){
-        request.setAttribute("username",user.getName());
-        request.setAttribute("userId",user.getUserId());
+      if (user != null) {
+        request.setAttribute("username", user.getName());
+        request.setAttribute("userId", user.getUserId());
       }
 
       return "alltask";
 
-    }catch(Exception e){
+    } catch (Exception e) {
       e.printStackTrace();
       return "404";
     }
@@ -178,23 +187,23 @@ public class OrderController {
   }
 
   @RequestMapping(value = "/cancle")
-  public String cancle(HttpServletRequest request,String orderId)throws Exception {
-    User user=null;
-    try{
-      LOG.info("待取消的订单"+orderId);
+  public String cancle(HttpServletRequest request, String orderId) throws Exception {
+    User user = null;
+    try {
+      _log.info("待取消的订单" + orderId);
       orderservice.cancleOrder(orderId);
       Order order = orderservice.findOrderByOrderId(orderId);
       String userId = order.getUserId();
-      user  = userservice.findUserByUserId(userId);
+      user = userservice.findUserByUserId(userId);
 
-      if(user!=null){
-        request.setAttribute("username",user.getName());
-        request.setAttribute("userId",user.getUserId());
+      if (user != null) {
+        request.setAttribute("username", user.getName());
+        request.setAttribute("userId", user.getUserId());
       }
 
       return "alltask";
 
-    }catch(Exception e){
+    } catch (Exception e) {
       e.printStackTrace();
       return "404";
     }
@@ -203,43 +212,44 @@ public class OrderController {
 
 
   @RequestMapping(value = "/resend")
-  public String resend(HttpServletRequest request,String orderId)throws Exception {
-    User user=null;
-    try{
-      LOG.info("重新发送的订单"+orderId);
+  public String resend(HttpServletRequest request, String orderId) throws Exception {
+    User user = null;
+    try {
+      _log.info("重新发送的订单" + orderId);
       orderservice.resendOrder(orderId);
       Order order = orderservice.findOrderByOrderId(orderId);
       String userId = order.getUserId();
-      user  = userservice.findUserByUserId(userId);
+      user = userservice.findUserByUserId(userId);
 
-      if(user!=null){
-        request.setAttribute("username",user.getName());
-        request.setAttribute("userId",user.getUserId());
+      if (user != null) {
+        request.setAttribute("username", user.getName());
+        request.setAttribute("userId", user.getUserId());
       }
 
       return "alltask";
 
-    }catch(Exception e){
+    } catch (Exception e) {
       e.printStackTrace();
       return "404";
     }
 
   }
-  @RequestMapping(value = "/addfeed")
-  public String daishoudingdan(HttpServletRequest request,String orderId,String userId) {
-    try{
-      User user  = userservice.findUserByUserId(userId);
 
-      if(user!=null){
-        request.setAttribute("username",user.getName());
+  @RequestMapping(value = "/addfeed")
+  public String daishoudingdan(HttpServletRequest request, String orderId, String userId) {
+    try {
+      User user = userservice.findUserByUserId(userId);
+
+      if (user != null) {
+        request.setAttribute("username", user.getName());
       }
 
-      request.setAttribute("orderId",orderId);
-      request.setAttribute("userId",userId);
+      request.setAttribute("orderId", orderId);
+      request.setAttribute("userId", userId);
 
       return "addfeed";
 
-    }catch(Exception e){
+    } catch (Exception e) {
       e.printStackTrace();
       return "404";
     }

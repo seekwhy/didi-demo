@@ -33,22 +33,6 @@
     <link href="http://cdn.bootcss.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet" />
     <link href="/static/style/common.css" rel="stylesheet" />
 
-    <!--[if IE 7]>
-    <link rel="stylesheet" href="/static/style/ace/css/font-awesome-ie7.min.css" />
-    <![endif]-->
-    <link rel="stylesheet" href="/static/style/ace/css/ace.min.css" />
-    <link rel="stylesheet" href="/static/style/ace/css/ace-rtl.min.css" />
-    <link rel="stylesheet" href="/static/style/ace/css/ace-skins.min.css" />
-    <!--[if lte IE 8]>
-    <link rel="stylesheet" href="/static/style/ace/css/ace-ie.min.css" />
-    <![endif]-->
-    <script src="/static/script/ace/js/ace-extra.min.js"></script>
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-    <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
 
 
 </head>

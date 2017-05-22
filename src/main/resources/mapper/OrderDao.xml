@@ -405,12 +405,28 @@
     update DI_ORDER
     set
     OERDER_STATE = '3'
-    where ORDER_ID = #{orderId,jdbcType=CHAR}
+    where ORDER_ID = #{orderId,jdbcType=VARCHAR}
   </update>
   <update id="resendOrder" parameterType="java.lang.String">
     update DI_ORDER
     set
     OERDER_STATE = '1'
-    where ORDER_ID = #{orderId,jdbcType=CHAR}
+    where ORDER_ID = #{orderId,jdbcType=VARCHAR}
   </update>
+
+  <select id="findNotgragOrdersByUidAndState" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from DI_ORDER
+    where OERDER_STATE = '2' and USER_ID=#{userId,jdbcType=VARCHAR}
+    order by CREATE_DATE desc
+  </select>
+
+  <select id="findAllOrderByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from DI_ORDER
+    where IS_DELETED = '0' and USER_ID=#{userId,jdbcType=VARCHAR}
+    order by CREATE_DATE desc
+  </select>
 </mapper>

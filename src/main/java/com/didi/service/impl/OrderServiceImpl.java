@@ -76,4 +76,12 @@ public class OrderServiceImpl implements OrderService {
   public List<Order> findAllFinishOrders() {
     return orderDao.findAllFinishOrders();
   }
+
+  public List<Order> findNotgragOrdersByUidAndState(String userId) {
+    return orderDao.findNotgragOrdersByUidAndState(userId);
+  }
+
+  public List<Order> findAllOrderByUserId(String userId) {
+    return orderDao.findAllOrderByUserId(userId);
+  }
 }

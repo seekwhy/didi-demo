@@ -6,10 +6,15 @@
 <html>
 <head>
     <title>Title</title>
+    <script  src="/static/script/third/easyDataTable/css/datatable.css"></script>
+    <!-- basic styles -->
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://cdn.bootcss.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="/static/style/common.css" rel="stylesheet" />
 </head>
 <body>
 <div >
-    <h1 align="center"> 未 抢 订  单  </h1>
+    <h1 align="center"> 未 抢 的 订  单  </h1>
     <form action="" name = "form" method="post" onsubmit="return reg(this);">
         <!--  分页行  -->
         <div class="panelBar" size="10,30,50"></div><br/>

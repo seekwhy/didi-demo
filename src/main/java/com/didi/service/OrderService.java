@@ -28,4 +28,7 @@ public interface OrderService {
 
   List<Order> findAllFinishOrders();
 
+  List<Order> findNotgragOrdersByUidAndState(String userId);
+
+  List<Order> findAllOrderByUserId(String userId);
 }
