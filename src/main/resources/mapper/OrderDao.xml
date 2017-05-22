@@ -434,7 +434,7 @@
     select
     <include refid="Base_Column_List" />
     from DI_ORDER
-    where IS_DELETED = '0'  and USER_ID=#{userId,jdbcType=VARCHAR}
+    where IS_DELETED = '0' and OERDER_STATE = '4' and USER_ID=#{userId,jdbcType=VARCHAR}
     order by CREATE_DATE desc
   </select>
 </mapper>
