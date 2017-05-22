@@ -9,7 +9,8 @@ package com.didi.enums;
 public enum OrderStateEnum {
   CREATE(1, "创建订单"),
   CONFIRM(2,"确认订单"),
-  GRAB(5,"抢得订单"),
+  NOTGRAB(5,"未接收"),
+  GRAB(6,"接收"),
   CANCEL(3,"取消订单"),
   FINISH(4, "完成订单");
 
