@@ -1,7 +1,7 @@
 package com.didi.enums;
 
 /**
- * @Author: wangmz
+ * @Author: thought
  * @Description :
  * @Date : Create in 下午2:49 2017/5/2
  * @Modified By :

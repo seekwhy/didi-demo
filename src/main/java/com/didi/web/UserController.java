@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @author wangmz。
+ * @author thought。
  * @create 2017-05-02 上午11:30
  **/
 @Controller

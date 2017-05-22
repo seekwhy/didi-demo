@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * @author wangmz。
+ * @author thought。
  * @create 2017-03-23 上午11:09
  **/
 public class OrderIdGenerator {

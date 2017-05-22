@@ -4,7 +4,7 @@ import com.didi.bo.UserBo;
 import com.didi.entity.User;
 
 /**
- * @author wangmz。
+ * @author thought。
  * @create 2017-05-02 上午11:40
  **/
 public interface UserService {

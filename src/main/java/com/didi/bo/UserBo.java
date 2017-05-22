@@ -3,7 +3,7 @@ package com.didi.bo;
 import java.io.Serializable;
 
 /**
- * @author wangmz。
+ * @author thought。
  * @create 2017-05-02 上午11:34
  **/
 public class UserBo implements Serializable{

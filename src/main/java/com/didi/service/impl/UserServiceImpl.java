@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 /**
- * @author wangmz。
+ * @author thought。
  * @create 2017-05-02 上午11:41
  **/
 @Service
