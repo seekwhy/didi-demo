@@ -26,33 +26,34 @@ public class UserController {
   private UserService userService;
 
   @RequestMapping(value = "/register", method = RequestMethod.POST)
-  public String list(HttpServletRequest request,@ModelAttribute("user") UserBo userBo) {
-    try{
+  public String list(HttpServletRequest request, @ModelAttribute("user") UserBo userBo) {
+    try {
       User user = userService.addNewUser(userBo);
       user = userService.findUserByName(userBo.getLoginName());
-      if(user!=null){
-        request.setAttribute("userId",user.getUserId());
-        request.setAttribute("username",user.getName());
+      if (user != null) {
+        request.setAttribute("userId", user.getUserId());
+        request.setAttribute("username", user.getName());
         return "alltask";
       }
       return "404";
-    }catch(Exception e){
+    } catch (Exception e) {
       e.printStackTrace();
       return "404";
     }
 
   }
+
   @RequestMapping(value = "/login", method = RequestMethod.POST)
-  public String login(HttpServletRequest request,@ModelAttribute("user") UserBo userBo) {
-    try{
+  public String login(HttpServletRequest request, @ModelAttribute("user") UserBo userBo) {
+    try {
       User user = userService.findUserByName(userBo.getLoginName());
-      if(user!=null&&user.getPassword().equals(userBo.getPassword())){
-        request.setAttribute("userId",user.getUserId());
-        request.setAttribute("username",user.getName());
+      if (user != null && user.getPassword().equals(userBo.getPassword())) {
+        request.setAttribute("userId", user.getUserId());
+        request.setAttribute("username", user.getName());
         return "alltask";
       }
       return "regist";
-    }catch(Exception e){
+    } catch (Exception e) {
       e.printStackTrace();
       return "regist";
     }
@@ -61,7 +62,7 @@ public class UserController {
 
   @RequestMapping(value = "/regist", method = RequestMethod.POST)
   public String regist(HttpServletRequest request) {
-      return "regist";
+    return "regist";
   }
 
 }
