@@ -1,0 +1,248 @@
+package com.didi.web;
+
+import com.didi.bo.OrderBo;
+import com.didi.entity.Order;
+import com.didi.entity.User;
+import com.didi.enums.OrderStateEnum;
+import com.didi.service.OrderService;
+import com.didi.service.UserService;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * @Author: wangmz
+ * @Description :
+ * @Date : Create in 上午11:47 2017/5/2
+ * @Modified By :
+ */
+@Controller
+@RequestMapping("/order")
+public class OrderController {
+  private Log LOG = LogFactory.getLog(this.getClass());
+
+  @Autowired
+  private OrderService orderservice;
+  @Autowired
+  private UserService userservice;
+
+  @RequestMapping(value = "/addorder")
+  public String list(HttpServletRequest request, @ModelAttribute("order") OrderBo orderBo) {
+    try{
+      String orderId = orderservice.addOrder(orderBo);
+
+      request.setAttribute("suc", "success");
+
+      List<Order> orderList = orderservice.findAllOrder();
+
+      request.setAttribute("orderList",orderList);
+
+      return "orderlist";
+
+    }catch(Exception e){
+      e.printStackTrace();
+      return "404";
+    }
+
+  }
+  @RequestMapping(value = "/weiqiangdan", method = RequestMethod.POST)
+  public String weiqiangdan(HttpServletRequest request, HttpServletResponse response) {
+    try{
+      List<Order> lists = new ArrayList<Order>();
+      String orderState = String.valueOf(OrderStateEnum.CREATE.getKey());
+      List<Order> orderList = orderservice.findorderbystate(orderState);
+      if(orderList.size()>0){
+        lists.addAll(orderList);
+      }
+      orderState = String.valueOf(OrderStateEnum.CONFIRM.getKey());
+      orderList = orderservice.findorderbystate(orderState);
+      if(orderList.size()>0){
+        lists.addAll(orderList);
+      }
+      request.setAttribute("lists",lists);
+
+      return "notgrab";
+
+    }catch(Exception e){
+      e.printStackTrace();
+      return "404";
+    }
+
+  }
+  @RequestMapping(value = "/daishoudingdan", method = RequestMethod.POST)
+  public String daishoudingdan(HttpServletRequest request, HttpServletResponse response) {
+    try{
+      List<Order> lists = new ArrayList<Order>();
+      String orderState = String.valueOf(OrderStateEnum.GRAB.getKey());
+      List<Order> orderList = orderservice.findorderbystate(orderState);
+      if(orderList.size()>0){
+        lists.addAll(orderList);
+      }
+      request.setAttribute("lists",lists);
+
+      return "waitorder";
+
+    }catch(Exception e){
+      e.printStackTrace();
+      return "404";
+    }
+
+  }
+  @RequestMapping(value = "/daiquerendingdan", method = RequestMethod.POST)
+  public String daiquerendingdan(HttpServletRequest request, HttpServletResponse response) {
+    try{
+      List<Order> lists = new ArrayList<Order>();
+      String orderState = String.valueOf(OrderStateEnum.CREATE.getKey());
+      List<Order> orderList = orderservice.findorderbystate(orderState);
+      if(orderList.size()>0){
+        lists.addAll(orderList);
+      }
+      request.setAttribute("lists",lists);
+
+      return "daiquerendingdan";
+
+    }catch(Exception e){
+      e.printStackTrace();
+      return "404";
+    }
+
+  }
+
+  @RequestMapping(value = "/chakandingdan", method = RequestMethod.POST)
+  public String chakandingdan(HttpServletRequest request, HttpServletResponse response) {
+    try{
+      List<Order> lists = new ArrayList<Order>();
+      List<Order> orderList = orderservice.findAllFinishOrders();
+      if(orderList.size()>0){
+        lists.addAll(orderList);
+      }
+      request.setAttribute("orderList",lists);
+
+      return "orderlist";
+
+    }catch(Exception e){
+      e.printStackTrace();
+      return "404";
+    }
+
+  }
+  @RequestMapping(value = "/tianjiaorder", method = RequestMethod.POST)
+  public String tianjiaorder(HttpServletRequest request, @ModelAttribute("order") OrderBo orderBo) {
+    try{
+      String userId = orderBo.getUserId();
+
+      User user = userservice.findUserByUserId(userId);
+
+      request.setAttribute("username",user.getName());
+      request.setAttribute("userId",user.getUserId());
+      return "order";
+
+    }catch(Exception e){
+      e.printStackTrace();
+      return "404";
+    }
+
+  }
+  @RequestMapping(value = "/confirm")
+  public String confirm(HttpServletRequest request,String orderId)throws Exception {
+    User user=null;
+    try{
+      LOG.info("待确认的订单"+orderId);
+      orderservice.confirmOrder(orderId);
+      Order order = orderservice.findOrderByOrderId(orderId);
+      String userId = order.getUserId();
+      user  = userservice.findUserByUserId(userId);
+
+      if(user!=null){
+        request.setAttribute("username",user.getName());
+        request.setAttribute("userId",user.getUserId());
+      }
+
+      return "alltask";
+
+    }catch(Exception e){
+      e.printStackTrace();
+      return "404";
+    }
+
+  }
+
+  @RequestMapping(value = "/cancle")
+  public String cancle(HttpServletRequest request,String orderId)throws Exception {
+    User user=null;
+    try{
+      LOG.info("待取消的订单"+orderId);
+      orderservice.cancleOrder(orderId);
+      Order order = orderservice.findOrderByOrderId(orderId);
+      String userId = order.getUserId();
+      user  = userservice.findUserByUserId(userId);
+
+      if(user!=null){
+        request.setAttribute("username",user.getName());
+        request.setAttribute("userId",user.getUserId());
+      }
+
+      return "alltask";
+
+    }catch(Exception e){
+      e.printStackTrace();
+      return "404";
+    }
+
+  }
+
+
+  @RequestMapping(value = "/resend")
+  public String resend(HttpServletRequest request,String orderId)throws Exception {
+    User user=null;
+    try{
+      LOG.info("重新发送的订单"+orderId);
+      orderservice.resendOrder(orderId);
+      Order order = orderservice.findOrderByOrderId(orderId);
+      String userId = order.getUserId();
+      user  = userservice.findUserByUserId(userId);
+
+      if(user!=null){
+        request.setAttribute("username",user.getName());
+        request.setAttribute("userId",user.getUserId());
+      }
+
+      return "alltask";
+
+    }catch(Exception e){
+      e.printStackTrace();
+      return "404";
+    }
+
+  }
+  @RequestMapping(value = "/addfeed")
+  public String daishoudingdan(HttpServletRequest request,String orderId,String userId) {
+    try{
+      User user  = userservice.findUserByUserId(userId);
+
+      if(user!=null){
+        request.setAttribute("username",user.getName());
+      }
+
+      request.setAttribute("orderId",orderId);
+      request.setAttribute("userId",userId);
+
+      return "addfeed";
+
+    }catch(Exception e){
+      e.printStackTrace();
+      return "404";
+    }
+
+  }
+}

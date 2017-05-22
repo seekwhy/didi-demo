@@ -1,0 +1,9 @@
+/*红星*/
+span.rs {
+	color: red;
+}
+
+/*居中显示modal*/
+.modal-dialog {
+	margin-top: 18%;
+}
