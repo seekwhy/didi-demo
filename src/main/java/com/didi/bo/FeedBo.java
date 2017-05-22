@@ -7,7 +7,7 @@ import java.util.Date;
  * @Author: thought
  * @Description :
  * @Date : Create in 下午5:40 2017/5/3
- * @Modified By :
+ * @Modified By .
  */
 
 public class FeedBo implements Serializable {

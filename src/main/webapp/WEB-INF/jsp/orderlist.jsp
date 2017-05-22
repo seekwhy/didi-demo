@@ -21,7 +21,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-    <title>  所  有  订  单  页  面  </title>
+    <title>  已  完  成  订  单  页  面  </title>
     <meta charset="utf-8">
     <title>Fullscreen Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -42,7 +42,7 @@
 <center>
 
     <div >
-        <h1 align="center"> 所  有  订  单  </h1>
+        <h1 align="center"> 已 完 成 订 单 </h1>
         <form action="" name = "form" method="post" onsubmit="return reg(this);">
             <!--  分页行  -->
             <div class="panelBar" size="10,30,50"></div><br/>

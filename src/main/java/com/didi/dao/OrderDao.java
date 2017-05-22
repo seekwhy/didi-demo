@@ -2,6 +2,7 @@ package com.didi.dao;
 
 import com.didi.entity.Order;
 import com.didi.entity.OrderExample;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -20,9 +21,11 @@ public interface OrderDao {
 
     Order selectByPrimaryKey(String id);
 
-    int updateByExampleSelective(@Param("record") Order record, @Param("example") OrderExample example);
+    int updateByExampleSelective(@Param("record") Order record,
+                                 @Param("example") OrderExample example);
 
-    int updateByExample(@Param("record") Order record, @Param("example") OrderExample example);
+    int updateByExample(@Param("record") Order record,
+                        @Param("example") OrderExample example);
 
     int updateByPrimaryKeySelective(Order record);
 
