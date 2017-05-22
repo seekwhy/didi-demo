@@ -257,4 +257,11 @@
       order by ${orderByClause}
     </if>
   </select>
+
+  <select id="findalllistByUserId" parameterType="String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from DI_FEEDBACK
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+  </select>
 </mapper>

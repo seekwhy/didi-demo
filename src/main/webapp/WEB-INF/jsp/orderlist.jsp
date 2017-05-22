@@ -89,51 +89,5 @@
     <a href="javascript:history.go(-1);">返回上一层</a>
 </center>
 
-
-<c:set var="script">
-    <script>
-
-        //search
-        function search(){
-            DataTable.reload("datatable");
-        }
-
-        //deteil
-        function edit(cid,gid){
-            window.location = "${contextPath}/admin/goods/toEdit?categoryId="+cid+"&goodsId="+gid;
-        }
-
-        //alter
-        function alter(gid,state,cid){
-            $.ajax({
-                type : "post",
-                url : '${contextPath}/admin/goods/alter',
-                data : {
-                    "id" : gid,
-                    "isValid" : state,
-                    "categoryId" : cid
-                },
-                dataType : "text",
-                error : function() {
-                    notice.warning("系统忙，请稍后再试！");
-                },
-                success : function(text) {
-                    if (text != '0') {
-                        notice.success("操作成功！");
-                        DataTable.reload("datatable");
-                    }
-                }
-            });
-
-        }
-
-        <%--table数据异步加载结束后的回调函数--%>
-        function dataLoadEndCallBack(){
-            $('[data-rel=tooltip]').tooltip();
-        }
-
-    </script>
-</c:set>
-
 </body>
 </html>

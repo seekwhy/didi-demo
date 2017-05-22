@@ -50,7 +50,7 @@
             </form>
         </dl>
         <dl >
-            <form action="/order/daiquerendingdan" method="post">
+            <form action="/order/waitconfirmorder" method="post">
                 <table border="0" >
                     <tr align="left">
                         <input type="hidden" name="userId" value=${userId}/>
@@ -66,7 +66,7 @@
             </form>
         </dl>
         <dl >
-            <form action="/order/chakandingdan" method="post">
+            <form action="/order/watchorder" method="post">
                 <table border="0" >
                     <tr align="left">
                         <input type="hidden" name="userId" value=${userId}/>

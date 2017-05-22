@@ -100,7 +100,7 @@ public class OrderController {
 
   }
 
-  @RequestMapping(value = "/daiquerendingdan", method = RequestMethod.POST)
+  @RequestMapping(value = "/waitconfirmorder", method = RequestMethod.POST)
   public String daiquerendingdan(HttpServletRequest request, HttpServletResponse response) {
     try {
       List<Order> lists = new ArrayList<Order>();
@@ -111,7 +111,7 @@ public class OrderController {
       }
       request.setAttribute("lists", lists);
 
-      return "daiquerendingdan";
+      return "waitconfirmorder";
 
     } catch (Exception e) {
       e.printStackTrace();
@@ -120,11 +120,15 @@ public class OrderController {
 
   }
 
-  @RequestMapping(value = "/chakandingdan", method = RequestMethod.POST)
-  public String chakandingdan(HttpServletRequest request, HttpServletResponse response) {
+  @RequestMapping(value = "/watchorder")
+  public String chakandingdan(HttpServletRequest request,String userId) {
     try {
+      String[] userIds = userId.split("/");
+      for (int i = 0; i < userIds.length; i++) {
+        userId = userIds[i];
+      }
       List<Order> lists = new ArrayList<Order>();
-      List<Order> orderList = orderservice.findAllFinishOrders();
+      List<Order> orderList = orderservice.findAllFinishOrdersByUserId(userId);
       if (orderList.size() > 0) {
         lists.addAll(orderList);
       }

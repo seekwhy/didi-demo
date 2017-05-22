@@ -15,4 +15,6 @@ public interface FeedService {
   void addFeed(FeedBo feedBo);
 
   List<Feedback> findalllist();
+
+  List<Feedback> findalllistByUserId(String userId);
 }

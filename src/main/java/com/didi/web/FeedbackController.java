@@ -8,6 +8,7 @@ import com.didi.entity.User;
 import com.didi.service.FeedService;
 import com.didi.service.OrderService;
 import com.didi.service.UserService;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,17 +61,23 @@ public class FeedbackController {
   }
 
   @RequestMapping(value = "/allfeed", method = RequestMethod.POST)
-  public String allfeedlist(HttpServletRequest request) {
+  public String allfeedlist(HttpServletRequest request,String userId,String orderId) {
     try{
-      List<Feedback> listss = new ArrayList<Feedback>();
-      List<Feedback> findalllist = feedservice.findalllist();
-      for (int i = 0; i < findalllist.size(); i++) {
-        LOG.info("----"+findalllist.get(i).getOrderId());
+      if(!StringUtils.isBlank(userId)){
+        List<Feedback> listss = new ArrayList<Feedback>();
+        String[] userIds = userId.split("/");
+        for (int i = 0; i < userIds.length; i++) {
+          userId = userIds[i];
+        }
+        List<Feedback> findalllist = feedservice.findalllistByUserId(userId);
+        for (int i = 0; i < findalllist.size(); i++) {
+          LOG.info("----"+findalllist.get(i).getOrderId());
+        }
+        listss.addAll(findalllist);
+        request.setAttribute("listss",listss);
+        LOG.info("what = "+listss.toArray().toString());
       }
 
-      listss.addAll(findalllist);
-      request.setAttribute("listss",listss);
-      LOG.info("what = "+listss.toArray().toString());
       return "allfeedlist";
 
     }catch(Exception e){

@@ -31,7 +31,7 @@ public class UserController {
       User user = userService.addNewUser(userBo);
       user = userService.findUserByName(userBo.getLoginName());
       if(user!=null){
-        request.setAttribute("userId",user.getId());
+        request.setAttribute("userId",user.getUserId());
         request.setAttribute("username",user.getName());
         return "alltask";
       }
@@ -47,7 +47,7 @@ public class UserController {
     try{
       User user = userService.findUserByName(userBo.getLoginName());
       if(user!=null&&user.getPassword().equals(userBo.getPassword())){
-        request.setAttribute("userId",user.getId());
+        request.setAttribute("userId",user.getUserId());
         request.setAttribute("username",user.getName());
         return "alltask";
       }

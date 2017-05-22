@@ -29,4 +29,6 @@ public interface FeedbackDao {
     int updateByPrimaryKey(Feedback record);
 
     List<Feedback> findalllist();
+
+    List<Feedback> findalllistByUserId(String userId);
 }

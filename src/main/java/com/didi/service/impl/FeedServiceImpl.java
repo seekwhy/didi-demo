@@ -34,4 +34,8 @@ public class FeedServiceImpl implements FeedService {
     return feedbackDao.findalllist();
   }
 
+  public List<Feedback> findalllistByUserId(String userId) {
+    return feedbackDao.findalllistByUserId(userId);
+  }
+
 }

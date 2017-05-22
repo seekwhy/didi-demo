@@ -45,4 +45,6 @@ public interface OrderDao {
     List<Order> findNotgragOrdersByUidAndState(String userId);
 
     List<Order> findAllOrderByUserId(String userId);
+
+    List<Order> findAllFinishOrdersByUserId(String userId);
 }

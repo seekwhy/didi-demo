@@ -429,4 +429,12 @@
     where IS_DELETED = '0' and USER_ID=#{userId,jdbcType=VARCHAR}
     order by CREATE_DATE desc
   </select>
+
+  <select id="findAllFinishOrdersByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from DI_ORDER
+    where IS_DELETED = '0'  and USER_ID=#{userId,jdbcType=VARCHAR}
+    order by CREATE_DATE desc
+  </select>
 </mapper>

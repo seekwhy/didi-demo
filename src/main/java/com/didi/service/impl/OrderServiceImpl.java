@@ -84,4 +84,8 @@ public class OrderServiceImpl implements OrderService {
   public List<Order> findAllOrderByUserId(String userId) {
     return orderDao.findAllOrderByUserId(userId);
   }
+
+  public List<Order> findAllFinishOrdersByUserId(String userId) {
+    return orderDao.findAllFinishOrdersByUserId(userId);
+  }
 }
